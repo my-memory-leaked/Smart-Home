@@ -11,12 +11,10 @@
 #pragma once
 
 // Uncomment to get logs on serial
-#define DEBUG_SENSORS
+//#define DEBUG_SENSORS
 
 #define PIN_IR_FRONT_SENSOR     12
 #define PIN_IR_REAR_SENSOR      14
-
-
 
 // RTOS
 #define SENSORS_TASK_NAME           "SensorsTask"

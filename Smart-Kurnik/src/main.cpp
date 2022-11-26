@@ -13,6 +13,8 @@
 #include <sensorsTask.h>
 
 
+uint32_t numberOfAnimalsInside = 0;
+
 void setup() {
   Serial.begin(921600);
 
