@@ -10,6 +10,9 @@
  */
 #pragma once
 
+
+/********************************************/ 
+// IR
 // Uncomment to get logs on serial
 //#define DEBUG_SENSORS
 
@@ -20,3 +23,12 @@
 #define SENSORS_TASK_NAME           "SensorsTask"
 #define SENSORS_TASK_STACK_SIZE     4096
 #define SENSORS_TASK_PRIORITY       1
+
+/********************************************/ 
+// Power jack
+#define PIN_RELAY_MODULE        13
+
+// RTOS
+#define POWER_JACK_TASK_NAME           "PowerJackTask"
+#define POWER_JACK_TASK_STACK_SIZE     2048
+#define POWER_JACK_TASK_PRIORITY       2

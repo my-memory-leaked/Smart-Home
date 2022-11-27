@@ -22,7 +22,7 @@
 static uint32_t frontIRSensorState;
 /// @brief IR rear sensor reading
 static uint32_t rearIRSensorState;
-/// @brief Number of animls inside house
+/// @brief Number of animls inside smart house
 extern uint32_t numberOfAnimalsInside;
 
 /// @brief RTOS task responsible for controlling the interruptions
