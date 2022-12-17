@@ -13,7 +13,7 @@
 
 void vPowerJackTask(void* parameters)  {
   // Pin configuration
-  pinMode(PIN_RELAY_MODULE, OUTPUT);
+  //pinMode(PIN_RELAY_MODULE, OUTPUT);
 
   for( ; ; ) {
 
