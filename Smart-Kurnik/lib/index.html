@@ -1,14 +1,15 @@
 <html><head>
   <title>Smart Domek</title>
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-  </head><body bgcolor = "#434242">
+  </head>
+  <body bgcolor = "#434242">
 
   <div id="information" style="color:#22A39F; font-family: Georgia; font-size: 40px; margin: auto; text-align: center;">
   <h4>Smart Domek</h4>
   </div>
 
   <div id = "temperature" style="color:#22A39F; font-family: Georgia; font-size: 20px; margin: auto; text-align: center; margin-top: 30px;"> Temperatura wewnątrz domku: </div>  
-  <div id = "temperatureReading" style="color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;"> %READINGS% </div>
+  <div id = "temperatureReading" style="color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;"><span id="temperatureValue">0</span>&degC</div>
   <br>
   <div id = "doorState" style="color:#22A39F; font-family: Georgia; font-size: 18px; margin: auto; text-align: center; margin-top: auto; margin-bottom: 10px;"> Aktualny stan drzwi: </div>  
 
@@ -23,5 +24,18 @@
     <button type='button submit' name='CLOSE' value='1' style="font-family: Georgia; background-color:#22A39F; border: none;border-radius: 4px; margin-left: 50px; text-align: center; padding: 15px;float: auto">Zamknij drzwi :(</button>
   </form>   
   </div>
+
+ <script>
+ setInterval(function() {getSensorData();}, 1000);
+ function getSensorData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("temperatureValue").innerHTML = this.responseText;
+    } }; 
+    xhttp.open("GET", "temperatureReading", true); xhttp.send();
+}
+ </script>
+
 </body>
 </html>

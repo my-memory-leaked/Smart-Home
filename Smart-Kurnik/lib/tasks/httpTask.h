@@ -13,7 +13,7 @@
 #include <globalSettings.h>
 
 /// Temperature inside smart house
-extern int16_t randomTemp;
+extern float temperatureReadingC;
 
 /// @brief RTOS task responsible for controlling the interruptions
 /// @param parameters Parameters passed to RTOS task

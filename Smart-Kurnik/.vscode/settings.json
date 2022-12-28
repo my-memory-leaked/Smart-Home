@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "memory": "cpp",
+        "cstdlib": "cpp",
+        "functional": "cpp"
+    }
+}

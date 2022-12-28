@@ -2,15 +2,20 @@
  * @file sensorsTask.cpp
  * @author Karol Pisarski (pisek.x@gmail.com)
  * @brief RTOS task file
- * @version 0.2
- * @date 2022-11-26
+ * @version 0.3
+ * @date 2022-12-28
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 #include "sensorsTask.h"
+#include "DallasTemperature.h"
 
-void vSensorsTask(void* parameters)  {
+/// @brief Temperature sensor reading
+float temperatureReadingC = 0.0f;
+
+void vSensorsTask(void* parameters)  
+{
   // Pin configuration
   Serial.println("Starting SensorsTask...");  
   pinMode(PIN_IR_FRONT_SENSOR, INPUT);     
@@ -31,7 +36,21 @@ void vSensorsTask(void* parameters)  {
   uint8_t previousInterrupt = -1; 
   bool wentThrough = true;
 
-  for( ; ; ) {
+  // Setup a oneWire instance to communicate with any OneWire devices
+  OneWire oneWire(PIN_DS18B20_TEMPERATURE_SENSOR);
+  // Pass our oneWire reference to Dallas Temperature sensor 
+  DallasTemperature dallasTempSensors(&oneWire);
+  dallasTempSensors.begin();
+
+  for( ; ; ) 
+  {
+
+    dallasTempSensors.requestTemperatures(); 
+    temperatureReadingC = dallasTempSensors.getTempCByIndex(0);
+
+    #ifdef DEBUG_SENSORS
+      Serial.printf("Temperature: %f\n", temperatureReadingC);
+    #endif
 
     frontIRSensorState = digitalRead(PIN_IR_FRONT_SENSOR);
     rearIRSensorState  = digitalRead(PIN_IR_REAR_SENSOR);
@@ -70,7 +89,7 @@ void vSensorsTask(void* parameters)  {
       Serial.printf("Animal counter: %u\n", numberOfAnimalsInside);
     #endif
 
-    vTaskDelay( 500 / portTICK_PERIOD_MS);    // 2 Hz
+    vTaskDelay( 500 / portTICK_PERIOD_MS);  
   } // for( ; ; )
 
 } // vSensorsTask

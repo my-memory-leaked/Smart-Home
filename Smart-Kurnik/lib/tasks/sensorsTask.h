@@ -2,8 +2,8 @@
  * @file sensorsTask.h
  * @author Karol Pisarski (pisek.x@gmail.com)
  * @brief RTOS task file
- * @version 0.2
- * @date 2022-11-26
+ * @version 0.3
+ * @date 2022-12-28
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -12,7 +12,6 @@
 
 #include <Arduino.h>
 #include <globalSettings.h>
-
 
 // IR encodement
 #define CODE_FRONT_IR   0x00
