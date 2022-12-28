@@ -12,6 +12,10 @@
 #include <Arduino.h>
 #include <globalSettings.h>
 
+extern bool isDoorOpened;
+extern bool openDoor;
+extern bool closeDoor;
+
 /// @brief Power Jack / Relay contolling RTOS task
 /// @param parameters Parameters passed to RTOS task
 void vPowerJackTask(void* parameters);
