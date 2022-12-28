@@ -14,7 +14,6 @@
 #include <httpTask.h>
 #include <powerJackTask.h>
 
-
 /// @brief Number of animls inside smart house
 uint32_t numberOfAnimalsInside = 0;
 
@@ -36,7 +35,5 @@ void setup()
 
 void loop()
 {
- 
     delay(1000);
-
 }

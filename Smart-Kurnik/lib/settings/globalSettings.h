@@ -11,6 +11,7 @@
 #pragma once
 
 
+
 #define NETWORK_SSID        "Mickiewicza 166 2.4GHz"
 #define NETWORK_PASSWORD    "221662316"
 
@@ -19,9 +20,6 @@
 
 /********************************************/ 
 // IR && TEMP
-
-/********************************************/ 
-// IR
 
 // Uncomment to get logs on serial
 //#define DEBUG_SENSORS
@@ -49,4 +47,3 @@
 #define HTTP_TASK_NAME              "HttpTask"
 #define HTTP_TASK_STACK_SIZE        6144
 #define HTTP_TASK_PRIORITY          1
-

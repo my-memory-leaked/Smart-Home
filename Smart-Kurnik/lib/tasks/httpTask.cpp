@@ -12,14 +12,13 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 
-//AsyncHTTPRequest async_request;
+// AsyncHTTPRequest async_request;
 AsyncWebServer server(80);   //Port 80
 
 // While confiuring smart house the door needs to be closed
 bool isDoorOpened = false;
 bool openDoor = false;
 bool closeDoor = false;
-
 
 
 String sendHTML(){
@@ -56,7 +55,6 @@ String sendHTML(){
   return ptr;
 }
 
-
 String processor(const String &var)
 {
     // Can add there readings to display
@@ -78,6 +76,7 @@ void vHttpTask(void* parameters)
   
   while (WiFi.status() != WL_CONNECTED) 
   {
+
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
@@ -123,6 +122,7 @@ void vHttpTask(void* parameters)
   {
 
   
+
     vTaskDelay( 500 / portTICK_PERIOD_MS);    // 2 Hz
   } // for( ; ; )
 
