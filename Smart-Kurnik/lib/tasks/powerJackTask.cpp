@@ -14,27 +14,36 @@
 void vPowerJackTask(void* parameters)  {
   Serial.println("Starting powerJackTask...");  
   // Pin configuration
+  pinMode(PIN_PWR_JACK_OPEN, OUTPUT);  
+  pinMode(PIN_PWR_JACK_CLOSE, OUTPUT);    
+  digitalWrite(PIN_PWR_JACK_OPEN, LOW); 
+  digitalWrite(PIN_PWR_JACK_CLOSE, LOW);
+
 
   for( ; ; ) {
 
     if (openDoor)
     {
+      digitalWrite(PIN_PWR_JACK_OPEN, HIGH);
       for (uint16_t i = 0; i < DOOR_OPEN_CLOSE_TIME; i++)
       {
         Serial.println("Opening Doors!!!");
         delay(1000);
       }
+      digitalWrite(PIN_PWR_JACK_OPEN, LOW);
       openDoor = false;
       closeDoor = false;
       isDoorOpened = true;
     }
     else if (closeDoor) 
     {
+      digitalWrite(PIN_PWR_JACK_CLOSE, HIGH);
       for (uint16_t i = 0; i < DOOR_OPEN_CLOSE_TIME; i++)
       {
         Serial.println("Closing Doors!!!");
         delay(1000);
       }
+      digitalWrite(PIN_PWR_JACK_CLOSE, LOW);
       isDoorOpened = false;
       openDoor = false;
       closeDoor = false;

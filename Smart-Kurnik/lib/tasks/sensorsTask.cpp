@@ -55,22 +55,22 @@ void vSensorsTask(void* parameters)
     frontIRSensorState = digitalRead(PIN_IR_FRONT_SENSOR);
     rearIRSensorState  = digitalRead(PIN_IR_REAR_SENSOR);
 
-    if (frontIRSensorState)
+    if (!frontIRSensorState)
         previousInterrupt = CODE_FRONT_IR;
     
-    if (rearIRSensorState)
+    if (!rearIRSensorState)
         previousInterrupt = CODE_REAR_IR;
 
     switch (previousInterrupt) {
       case CODE_FRONT_IR:
             // waits until animal crosses rear IR 
-            while(!rearIRSensorState) { rearIRSensorState = digitalRead(PIN_IR_REAR_SENSOR); }
+            while(rearIRSensorState) { rearIRSensorState = digitalRead(PIN_IR_REAR_SENSOR); }
             previousInterrupt = -1;
             numberOfAnimalsInside++;
         break;
       case CODE_REAR_IR:
             // waits until animal crosses front IR 
-            while(!frontIRSensorState) { frontIRSensorState = digitalRead(PIN_IR_FRONT_SENSOR); }
+            while(frontIRSensorState) { frontIRSensorState = digitalRead(PIN_IR_FRONT_SENSOR); }
             previousInterrupt = -1;
             (numberOfAnimalsInside == 0) ? : numberOfAnimalsInside--;
         break;

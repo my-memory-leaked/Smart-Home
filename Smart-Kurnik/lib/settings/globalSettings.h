@@ -12,8 +12,8 @@
 
 
 
-#define NETWORK_SSID        "Mickiewicza 166 2.4GHz"
-#define NETWORK_PASSWORD    "221662316"
+#define NETWORK_SSID        "Pisek"
+#define NETWORK_PASSWORD    "12345678"
 
 // Time in seconds 
 #define DOOR_OPEN_CLOSE_TIME        5
@@ -22,13 +22,21 @@
 // IR && TEMP
 
 // Uncomment to get logs on serial
-//#define DEBUG_SENSORS
+ #define DEBUG_SENSORS
 
 #define PIN_DS18B20_TEMPERATURE_SENSOR      4
 
 #define PIN_IR_FRONT_SENSOR     12
 #define PIN_IR_REAR_SENSOR      14
+/********************************************/ 
+/********************************************/ 
+// Power Jack
 
+#define PIN_PWR_JACK_OPEN      17   // D1
+#define PIN_PWR_JACK_CLOSE     16   // D0
+
+/********************************************/ 
+/********************************************/ 
 // RTOS
 #define SENSORS_TASK_NAME           "SensorsTask"
 #define SENSORS_TASK_STACK_SIZE     4096

@@ -120,7 +120,7 @@ void vHttpTask(void* parameters)
 
   for( ; ; ) 
   {
-
+      // TODO reconnecting
   
 
     vTaskDelay( 500 / portTICK_PERIOD_MS);    // 2 Hz
