@@ -2,8 +2,8 @@
  * @file httpTask.cpp
  * @author Karol Pisarski (pisek.x@gmail.com)
  * @brief RTOS task file
- * @version 0.2
- * @date 2022-12-28
+ * @version 0.3
+ * @date 2023-01-10
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -11,6 +11,7 @@
 #include "httpTask.h"
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
+#include <ESP32Ping.h>
 
 // AsyncHTTPRequest async_request;
 AsyncWebServer server(80);   //Port 80
@@ -20,6 +21,7 @@ bool isDoorOpened = false;
 bool openDoor = false;
 bool closeDoor = false;
 
+extern uint32_t numberOfAnimalsInside;
 
 String sendHTML(){
   String ptr = "<!DOCTYPE html> <html>\n";
@@ -31,6 +33,10 @@ String sendHTML(){
   ptr +="</div>\n";
   ptr +="<div id = \"temperature\" style=\"color:#22A39F; font-family: Georgia; font-size: 20px; margin: auto; text-align: center; margin-top: 30px;\"> Temperatura wewnątrz domku: </div>\n";
   ptr +="<div id = \"temperatureReading\" style=\"color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;\"><span id=\"temperatureValue\">0</span>&degC</div>\n";
+  
+  ptr +="<div id = \"temperature\" style=\"color:#22A39F; font-family: Georgia; font-size: 20px; margin: auto; text-align: center; margin-top: 30px;\"> Ilość zwierząt w domku: </div>";
+  ptr +="<div id = \"animalsInside\" style=\"color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;\"><span id=\"animalsInsideVal\">0</span></div>";
+  
   ptr +="<br>\n";
   ptr +="<form action='/get' method='GET'style=\"display: flex; align-items: center; justify-content: center;\">\n";
 
@@ -47,7 +53,7 @@ String sendHTML(){
   ptr += "</div>\n";
 
   // <-------------------------JavaScrip------------------------->
-  ptr+= "<script>setInterval(function() {getSensorData();}, 10);function getSensorData() {var xhttp = new XMLHttpRequest();xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {document.getElementById(\"temperatureValue\").innerHTML = this.responseText;} }; xhttp.open(\"GET\", \"temperatureReading\", true); xhttp.send();}</script>";
+  ptr+= "<script>setInterval(function() {getSensorData(); getAnimalCounter();}, 10);function getSensorData() {var xhttp = new XMLHttpRequest();xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {document.getElementById(\"temperatureValue\").innerHTML = this.responseText;} }; xhttp.open(\"GET\", \"temperatureReading\", true); xhttp.send();} function getAnimalCounter() {var xhttp = new XMLHttpRequest();xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {document.getElementById(\"animalsInside\").innerHTML = this.responseText; }}; xhttp.open(\"GET\", \"animalsInside\", true); xhttp.send();}</script>";
   
   ptr += "</body>\n";
   ptr += "</html>\n";
@@ -66,6 +72,26 @@ void notFound(AsyncWebServerRequest *request)
   request->send(404, "text/plain", "Not found");
 }
 
+
+void checkConnection()
+{
+  bool repliedPing = false;
+  for(uint8_t i= 0; i < RECONNECT_TRIES; i++)
+  {
+    repliedPing = Ping.ping("www.google.com", 3);
+    if(!repliedPing)
+    {
+      Serial.printf("Ping failed %i time\n", i);
+    }
+    delay(100);
+  }
+  if(!repliedPing)
+  {
+    Serial.println("Restarting system!!!");
+    ESP.restart();
+  }
+
+}
 
 void vHttpTask(void* parameters)  
 {
@@ -87,6 +113,12 @@ void vHttpTask(void* parameters)
   server.on("/temperatureReading", [](AsyncWebServerRequest *request)
   { 
     request->send(200, "text/plain", String(temperatureReadingC)); //Send sensor reading when there's a client ajax request
+  }); 
+
+  
+  server.on("/animalsInside", [](AsyncWebServerRequest *request)
+  { 
+    request->send(200, "text/plain", String(numberOfAnimalsInside)); //Send sensor reading when there's a client ajax request
   }); 
 
   // Route for root / web page
@@ -120,8 +152,7 @@ void vHttpTask(void* parameters)
 
   for( ; ; ) 
   {
-      // TODO reconnecting
-  
+    checkConnection();
 
     vTaskDelay( 500 / portTICK_PERIOD_MS);    // 2 Hz
   } // for( ; ; )

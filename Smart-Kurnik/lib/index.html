@@ -11,6 +11,9 @@
   <div id = "temperature" style="color:#22A39F; font-family: Georgia; font-size: 20px; margin: auto; text-align: center; margin-top: 30px;"> Temperatura wewnątrz domku: </div>  
   <div id = "temperatureReading" style="color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;"><span id="temperatureValue">0</span>&degC</div>
 
+  <div id = "temperature" style="color:#22A39F; font-family: Georgia; font-size: 20px; margin: auto; text-align: center; margin-top: 30px;"> Ilość zwierząt w domku: </div>  
+  <div id = "animalsInside" style="color:#F3EFE0; font-family: Georgia; font-size: 25px; margin: auto; text-align: center;"><span id="animalsInsideVal">0</span></div>
+
   <br>
   <div id = "doorState" style="color:#22A39F; font-family: Georgia; font-size: 18px; margin: auto; text-align: center; margin-top: auto; margin-bottom: 10px;"> Aktualny stan drzwi: </div>  
 
@@ -26,8 +29,9 @@
   </form>   
   </div>
 
+
  <script>
- setInterval(function() {getSensorData();}, 1000);
+ setInterval(function() {getSensorData(); getAnimalCounter(); }, 1000);
  function getSensorData() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -35,6 +39,14 @@
       document.getElementById("temperatureValue").innerHTML = this.responseText;
     } }; 
     xhttp.open("GET", "temperatureReading", true); xhttp.send();
+}
+function getAnimalCounter() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("animalsInside").innerHTML = this.responseText;
+    }};
+   xhttp.open("GET", "animalsInside", true); xhttp.send();
 }
  </script>
 

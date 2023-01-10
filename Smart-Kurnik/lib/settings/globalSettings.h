@@ -55,3 +55,5 @@
 #define HTTP_TASK_NAME              "HttpTask"
 #define HTTP_TASK_STACK_SIZE        6144
 #define HTTP_TASK_PRIORITY          1
+
+#define RECONNECT_TRIES             10  // Watch out uint8!!!!
