@@ -14,6 +14,9 @@
 /// @brief Temperature sensor reading
 float temperatureReadingC = 0.0f;
 
+bool frontDoorSensor = false;
+bool backDoorSensor = false;
+
 void vSensorsTask(void* parameters)  
 {
   // Pin configuration
@@ -42,9 +45,13 @@ void vSensorsTask(void* parameters)
   DallasTemperature dallasTempSensors(&oneWire);
   dallasTempSensors.begin();
 
+  // Door sensors
+  pinMode(PIN_FRONT_DOOR_SENSOR, INPUT_PULLUP);
+  pinMode(PIN_BACK_DOOR_SENSOR, INPUT_PULLUP);
+
+
   for( ; ; ) 
   {
-
     dallasTempSensors.requestTemperatures(); 
     temperatureReadingC = dallasTempSensors.getTempCByIndex(0);
 
@@ -88,6 +95,27 @@ void vSensorsTask(void* parameters)
   
       Serial.printf("Animal counter: %u\n", numberOfAnimalsInside);
     #endif
+
+
+    frontDoorSensor = digitalRead(PIN_FRONT_DOOR_SENSOR);
+    backDoorSensor = digitalRead(PIN_BACK_DOOR_SENSOR);
+    if (!frontDoorSensor)
+    {
+      #ifdef DEBUG_SENSORS
+        Serial.println("Front door sensor reached!");
+      #endif
+    }
+    else if(!backDoorSensor)
+    {
+      #ifdef DEBUG_SENSORS
+        Serial.println("Back door sensor reached!");
+      #endif
+    }
+    else
+    {
+      Serial.println("None door sensor reached!");
+    }
+
 
     vTaskDelay( 500 / portTICK_PERIOD_MS);  
   } // for( ; ; )

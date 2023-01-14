@@ -15,6 +15,8 @@
 extern bool isDoorOpened;
 extern bool openDoor;
 extern bool closeDoor;
+extern bool frontDoorSensor;
+extern bool backDoorSensor;
 
 /// @brief Power Jack / Relay contolling RTOS task
 /// @param parameters Parameters passed to RTOS task
