@@ -56,4 +56,10 @@
 #define HTTP_TASK_STACK_SIZE        6144
 #define HTTP_TASK_PRIORITY          1
 
+/********************************************/ 
+// Door sensors
+#define PIN_FRONT_DOOR_SENSOR      27   
+#define PIN_BACK_DOOR_SENSOR       26   
+
+
 #define RECONNECT_TRIES             10  // Watch out uint8!!!!

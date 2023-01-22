@@ -20,6 +20,7 @@ AsyncWebServer server(80);   //Port 80
 bool isDoorOpened = false;
 bool openDoor = false;
 bool closeDoor = false;
+extern bool doorError;
 
 extern uint32_t numberOfAnimalsInside;
 
@@ -51,6 +52,11 @@ String sendHTML(){
   ptr += "<button type='button submit' name='CLOSE' value='1' style=\"font-family: Georgia; background-color:#22A39F; border: none;border-radius: 4px; margin-left: 50px; text-align: center; padding: 15px;float: auto\">Zamknij drzwi :(</button>\n";
   ptr += "</form>\n";
   ptr += "</div>\n";
+
+  if(doorError)
+  {
+    ptr +="<div id=\"doorError\" style=\"color:red; font-family: Georgia; font-size: 32px; margin: auto; text-align: center;\">Door Error!!!</div>";
+  }
 
   // <-------------------------JavaScrip------------------------->
   ptr+= "<script>setInterval(function() {getSensorData(); getAnimalCounter();}, 10);function getSensorData() {var xhttp = new XMLHttpRequest();xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {document.getElementById(\"temperatureValue\").innerHTML = this.responseText;} }; xhttp.open(\"GET\", \"temperatureReading\", true); xhttp.send();} function getAnimalCounter() {var xhttp = new XMLHttpRequest();xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {document.getElementById(\"animalsInside\").innerHTML = this.responseText; }}; xhttp.open(\"GET\", \"animalsInside\", true); xhttp.send();}</script>";

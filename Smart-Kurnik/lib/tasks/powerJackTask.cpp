@@ -11,6 +11,9 @@
 #include <powerJackTask.h>
 
 
+
+bool doorError = false;
+
 void vPowerJackTask(void* parameters)  {
   Serial.println("Starting powerJackTask...");  
   // Pin configuration
@@ -34,6 +37,7 @@ void vPowerJackTask(void* parameters)  {
       openDoor = false;
       closeDoor = false;
       isDoorOpened = true;
+      frontDoorSensor ? doorError = true : doorError = false;
     }
     else if (closeDoor) 
     {
@@ -47,8 +51,8 @@ void vPowerJackTask(void* parameters)  {
       isDoorOpened = false;
       openDoor = false;
       closeDoor = false;
+      backDoorSensor ? doorError = true : doorError = false;
     }
-
    
     vTaskDelay( 1000 / portTICK_PERIOD_MS);
   } // for( ; ; )
